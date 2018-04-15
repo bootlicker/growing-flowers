@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/TerrainGen.unity
+- path: Assets/walking about.unity
   isLoaded: 1
   isActive: 1
