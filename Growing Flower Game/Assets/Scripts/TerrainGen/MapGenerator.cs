@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
 
+    private void Start()
+    {
+        GenerateMap();
+    }
+
     public enum DrawMode {NoiseMap, ColourMap, Mesh}
     public DrawMode drawMode;
     public int mapWidth;
