@@ -8,6 +8,7 @@ public class InfiniteTerrain : MonoBehaviour {
     public Transform viewer;
 
     public static Vector2 viewerPosition;
+    static MapGenerator mapGenerator;
     int chunkSize;
     int chunksVisibleInViewDistance;
 
@@ -16,6 +17,7 @@ public class InfiniteTerrain : MonoBehaviour {
 
     private void Start()
     {
+        mapGenerator = FindObjectOfType<MapGenerator>();
         chunkSize = MapGenerator.mapChunkSize - 1;
         chunksVisibleInViewDistance = Mathf.RoundToInt(maxViewDst / chunkSize);
 
@@ -77,8 +79,14 @@ public class InfiniteTerrain : MonoBehaviour {
             meshObject.transform.localScale = Vector3.one * size / 10f;
             meshObject.transform.parent = parent;
             SetVisible(false); // default state invisible
+
+            mapGenerator.RequestMapData(OnMapDataReceived);
         }
    
+    void OnMapDataReceived(MapData mapData)
+        {
+            print("map data received");
+        }
 
     public void UpdateTerrainChunk()
         {
