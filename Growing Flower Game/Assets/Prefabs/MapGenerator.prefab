@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4146356001822474}
   - component: {fileID: 114253316440304862}
   - component: {fileID: 114941206591877890}
+  - component: {fileID: 114065476921932878}
   m_Layer: 0
   m_Name: MapGenerator
   m_TagString: Untagged
@@ -41,6 +42,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114065476921932878
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1087429099005786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c2e6bc979e7df142b2ed9f37034c448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewer: {fileID: 0}
+  mapMaterial: {fileID: 0}
 --- !u!114 &114253316440304862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -53,8 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawMode: 2
-  mapWidth: 250
-  mapHeight: 250
+  levelOfDetail: 0
   noiseScale: 275.75
   octaves: 4
   persistence: 0.114
@@ -62,6 +75,42 @@ MonoBehaviour:
   seed: 177
   offset: {x: 5.35, y: 0}
   meshHeightMultiplier: 54.81
+  meshHeightCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.20228797
+      value: 0.00020873034
+      inSlope: 0.02906778
+      outSlope: 0.02906778
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.4530746
+      value: 0.0631304
+      inSlope: 0.56903684
+      outSlope: 0.56903684
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.8125384
+      value: 0.5552987
+      inSlope: 1.9130111
+      outSlope: 1.9130111
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1.0102539
+      value: 0.6951599
+      inSlope: 0.18305737
+      outSlope: 0.18305737
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   autoUpdate: 1
   regions:
   - name: Water
