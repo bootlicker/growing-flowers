@@ -6,13 +6,10 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
 
-    private void Start()
-    {
-        GenerateMapData();
-    }
-
     public enum DrawMode {NoiseMap, ColourMap, Mesh}
     public DrawMode drawMode;
+
+    public Noise.NormalizeMode normalizeMode;
 
     public const int mapChunkSize = 241; // mesh is one less than this
     [Range(0,6)]
@@ -31,19 +28,19 @@ public class MapGenerator : MonoBehaviour {
     public AnimationCurve meshHeightCurve;
 
     public bool autoUpdate;
+
     public TerrainType[] regions;
 
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
     public void DrawMapInEditor()
     {
-        MapData mapData = GenerateMapData();
+        MapData mapData = GenerateMapData(Vector2.zero);
+
         MapDisplay display = FindObjectOfType<MapDisplay>();
         if (drawMode == DrawMode.NoiseMap)
         {
-
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(mapData.heightMap));
-
         }
         else if (drawMode == DrawMode.ColourMap)
         {
@@ -55,19 +52,19 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    public void RequestMapData(Action<MapData> callback)
+    public void RequestMapData(Vector2 centre, Action<MapData> callback)
     {
         ThreadStart threadStart = delegate
         {
-            MapDataThread(callback);
+            MapDataThread(centre, callback);
         }; // note semicolon
 
         new Thread(threadStart).Start();
     }
 
-    void MapDataThread(Action<MapData> callback)
+    void MapDataThread(Vector2 centre, Action<MapData> callback)
     {
-        MapData mapData = GenerateMapData();
+        MapData mapData = GenerateMapData(centre);
         // add to queue, when one thread reaches this, no other can execute this at the same time
         lock (mapDataThreadInfoQueue)
         {
@@ -114,9 +111,9 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    MapData GenerateMapData()
+    MapData GenerateMapData(Vector2 centre)
     {
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistence, lacunarity, offset);
+        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistence, lacunarity, centre + offset, normalizeMode);
 
         Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
 
@@ -129,9 +126,11 @@ public class MapGenerator : MonoBehaviour {
                 // Pick the right region to colour the garden by
                 for (int i = 0; i < regions.Length; i++)
                 {
-                    if (currentHeight <= regions[i].height)
+                    if (currentHeight >= regions[i].height)
                     {
                         colourMap[y * mapChunkSize + x] = regions[i].colour;
+                    } else
+                    {                              
                         break;
                     }
                 }

@@ -53,8 +53,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c2e6bc979e7df142b2ed9f37034c448, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detailLevels:
+  - lod: 0
+    visibleDstThreshold: 200
+  - lod: 1
+    visibleDstThreshold: 400
+  - lod: 2
+    visibleDstThreshold: 600
   viewer: {fileID: 0}
-  mapMaterial: {fileID: 0}
+  mapMaterial: {fileID: 2100000, guid: 06e9bfcf61f564047b7d9937965a9029, type: 2}
 --- !u!114 &114253316440304862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,13 +74,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawMode: 2
-  levelOfDetail: 0
-  noiseScale: 275.75
+  normalizeMode: 1
+  editorPreviewLOD: 0
+  noiseScale: 113.46
   octaves: 4
   persistence: 0.114
   lacunarity: 4
-  seed: 177
-  offset: {x: 5.35, y: 0}
+  seed: 242
+  offset: {x: 76.38, y: 0}
   meshHeightMultiplier: 54.81
   meshHeightCurve:
     serializedVersion: 2
@@ -104,7 +112,7 @@ MonoBehaviour:
       tangentMode: 0
     - serializedVersion: 2
       time: 1.0102539
-      value: 0.6951599
+      value: 0.79084396
       inSlope: 0.18305737
       outSlope: 0.18305737
       tangentMode: 0
@@ -114,7 +122,7 @@ MonoBehaviour:
   autoUpdate: 1
   regions:
   - name: Water
-    height: 0.2
+    height: 0
     colour: {r: 0.30730966, g: 0.53685117, b: 0.85294116, a: 0}
   - name: Beach
     height: 0.3
@@ -128,6 +136,9 @@ MonoBehaviour:
   - name: Land3
     height: 1
     colour: {r: 0.5597348, g: 0.7205882, b: 0.34439877, a: 0}
+  - name: Land3
+    height: 0
+    colour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114941206591877890
 MonoBehaviour:
   m_ObjectHideFlags: 1

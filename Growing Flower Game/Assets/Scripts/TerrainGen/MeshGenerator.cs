@@ -7,14 +7,15 @@ public static class MeshGenerator {
     public static MeshData GenerateTerrainMesh(float[,] heightMap, float heightMultiplier, AnimationCurve _heightCurve, int levelOfDetail)
     {
         AnimationCurve heightCurve = new AnimationCurve (_heightCurve.keys); // make sure each thread has its own heightcurve object
+
         int width = heightMap.GetLength(0);
         int height = heightMap.GetLength(1);
-        float topLeftX = (width - 1) * -0.5f;
-        float topLeftZ = (height - 1) * 0.5f;
+        float topLeftX = (width - 1) / -2f;
+        float topLeftZ = (height - 1) / 2f;
 
         // 1, 2, 4, 8, 10, 12
         int meshSimplificationIncrement = (levelOfDetail == 0) ? 1 :  levelOfDetail * 2;
-        int verticesPerLine = ((width - 1) / meshSimplificationIncrement) + 1;
+        int verticesPerLine = (width - 1) / meshSimplificationIncrement + 1;
 
         MeshData meshData = new MeshData(verticesPerLine, verticesPerLine);
         int vertexIndex = 0;
