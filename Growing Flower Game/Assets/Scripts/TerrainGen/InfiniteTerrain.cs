@@ -21,6 +21,8 @@ public class InfiniteTerrain : MonoBehaviour {
     int chunkSize;
     int chunksVisibleInViewDistance;
 
+    public Mesh meshToCollide;
+
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
 
@@ -71,7 +73,7 @@ public class InfiniteTerrain : MonoBehaviour {
                   
                 } else
                 {
-                    terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, detailLevels, transform, mapMaterial ));
+                    terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, detailLevels, transform, mapMaterial, meshToCollide));
                 }
             }
         }
@@ -92,8 +94,9 @@ public class InfiniteTerrain : MonoBehaviour {
         MapData mapData;
         bool mapDataReceived;
         int previousLODIndex = -1;
+        private Mesh meshToCollide;
 
-        public TerrainChunk(Vector2 coord, int size, LODInfo[] detailLevels, Transform parent, Material material)
+        public TerrainChunk(Vector2 coord, int size, LODInfo[] detailLevels, Transform parent, Material material, Mesh meshToCollide)
         {
             this.detailLevels = detailLevels;
 
@@ -102,6 +105,7 @@ public class InfiniteTerrain : MonoBehaviour {
             Vector3 positionV3 = new Vector3(position.x, 0, position.y);
 
             meshObject = new GameObject("Terrain chunk");
+        
             meshRenderer = meshObject.AddComponent<MeshRenderer>();
             meshFilter = meshObject.AddComponent<MeshFilter>();
             meshRenderer.material = material;
@@ -116,7 +120,7 @@ public class InfiniteTerrain : MonoBehaviour {
             {
                 lodMeshes[i] = new LODMesh(detailLevels[i].lod, UpdateTerrainChunk);
             }
-
+        
             mapGenerator.RequestMapData(position, OnMapDataReceived);
         }
    
@@ -166,6 +170,8 @@ public class InfiniteTerrain : MonoBehaviour {
                         {
                             previousLODIndex = lodIndex;
                             meshFilter.mesh = lodMesh.mesh;
+
+
                         }
                         else if (!lodMesh.hasRequestedMesh)
                         {
