@@ -39,7 +39,7 @@ public class ObjectGenerator : MonoBehaviour {
             while (j > 0)
             {
                 // try to place plant
-                position = new Vector3(Random.Range(-200,200), 100, Random.Range(-200, 200));
+                position = new Vector3(Random.Range(-600,600), 100, Random.Range(-600, 600));
                 if(!ObjectIsNear(position, proximityRadius))
                 {
                     j = -1;
@@ -59,9 +59,9 @@ public class ObjectGenerator : MonoBehaviour {
             {
                 Debug.Log("Hit Y = " + hit.point.y);
             }
-            Debug.DrawRay(position, Vector3.down * hit.distance, Color.yellow, 10f);
+            Debug.DrawRay(position, Vector3.down * hit.distance, Color.yellow, 2f);
 
-            //position += new Vector3(0, -hit.distance, 0);
+            position += new Vector3(0, -hit.distance, 0);
 
             Transform p = Instantiate(plant, position, Quaternion.identity);
             plants.Add(p);
