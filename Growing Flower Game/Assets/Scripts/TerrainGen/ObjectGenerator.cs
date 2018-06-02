@@ -35,14 +35,15 @@ public class ObjectGenerator : MonoBehaviour {
             Transform plant = plantObjects[Random.Range(0, plantObjects.Length)];
             Vector3 position = new Vector3(0, 0, 0);
             // Check the new position isn't too close to the existing plants
-            int j = 100;
+            int j = 200;
             while (j > 0)
             {
                 // try to place plant
                 position = new Vector3(Random.Range(-600,600), 100, Random.Range(-600, 600));
-                if(!ObjectIsNear(position, proximityRadius))
+                if(!ObjectIsNear(position, proximityRadius) && ObjectAboveGround(position))
                 {
                     j = -1;
+                    break;
                 }
                 else
                 {
@@ -61,7 +62,7 @@ public class ObjectGenerator : MonoBehaviour {
             }
             Debug.DrawRay(position, Vector3.down * hit.distance, Color.yellow, 2f);
 
-            position += new Vector3(0, -hit.distance, 0);
+            position += new Vector3(0, -hit.distance + plant.transform.localScale.y / 2.5f, 0);
 
             Transform p = Instantiate(plant, position, Quaternion.identity);
             plants.Add(p);
@@ -94,4 +95,22 @@ public class ObjectGenerator : MonoBehaviour {
         return false;
     }
 
+    bool ObjectAboveGround(Vector3 position)
+    {
+        // assume sea level is 0.3
+        // Ensure the height hits the Mesh right
+        int layerMask = 1 << 7;
+        RaycastHit hit;
+
+        if (Physics.Raycast(position, Vector3.down, out hit, Mathf.Infinity))
+        {
+            if(hit.point.y < 0.35)
+            {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
 }
