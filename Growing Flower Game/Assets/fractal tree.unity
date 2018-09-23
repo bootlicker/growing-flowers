@@ -212,8 +212,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea0ac19ad963468f9dffdc06c2ebef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recurse: 10
-  splitNumber: 2
+  recurse: 5
+  splitNumber: 3
   pivotPosition: {x: 0, y: 1, z: 0}
 --- !u!54 &1329675294
 Rigidbody:
